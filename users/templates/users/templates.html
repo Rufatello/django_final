@@ -1,0 +1,28 @@
+{% extends 'message/base.html' %}
+{% load mediapath %}
+{% block title %}
+    <div class="b-example-divider"></div>
+
+    <div class="container">
+        <header>
+            <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+                <h1 class="display-4 fw-normal text-body-emphasis">Личный кабинет</h1>
+                <p class="fs-5 text-body-secondary">Введите данные для регистрации</p>
+            </div>
+        </header>
+{% endblock %}
+{% block body %}
+    {% if user.avatar %}
+    <img src="{% mediapath user.avatar %}"  width="40%" height="150" class="bd-placeholder-img">
+    {% else %}
+        <img src="{% mediapath 'user/Pochik.jpeg' %}"  width="40%" height="150" class="bd-placeholder-img">
+    {% endif %}
+    <h3 class="display-9 fw-normal text-body-emphasis">Имя:{{ user.first_name }}</h3>
+    <h3 class="display-9 fw-normal text-body-emphasis">Фамилия:{{ user.last_name }}</h3>
+    <h3 class="display-9 fw-normal text-body-emphasis">Отчество:{{ user.surname }}</h3>
+
+
+    <a class="p-2 btn btn-outline-danger" href="{% url 'users:new_password' %}">Сгенирировать новый пароль</a>
+    <a class="p-2 btn btn-outline-danger" href="{% url 'users:user_password' %}">Сменить пароль</a>
+
+{% endblock %}
