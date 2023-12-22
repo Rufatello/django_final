@@ -14,4 +14,5 @@ urlpatterns = [
     path('template/newpassword', new_password, name='new_password'),
     path('user_password/', PasswordsChangeView.as_view(), name='user_password'),
 
+
 ]

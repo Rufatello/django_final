@@ -25,6 +25,7 @@
 
 
     <style>
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -80,6 +81,12 @@
 
         .nav-flush .nav-link {
             border-radius: 0;
+        }
+        footer {
+              position: fixed;
+              right: 40%;
+              bottom: 0;
+              text-align: center;
         }
 
         .btn-toggle {
@@ -138,6 +145,7 @@
         .lh-tight {
             line-height: 1.25;
         }
+        
 
     </style>
 
@@ -222,7 +230,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="/" class="nav-link active" aria-current="page">
                     <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#home"/>
                     </svg>
@@ -230,7 +238,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="/" class="nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#speedometer2"/>
                     </svg>
@@ -246,7 +254,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="{% url 'message:contact' %}" class="nav-link text-white">
                     <svg class="bi me-2" width="16" height="16">
                         <use xlink:href="#people-circle"/>
                     </svg>
@@ -304,5 +312,7 @@
 <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
  {% block body %}
 {% endblock %}
-
+    <footer>
+  <small class="d-block mb-3 text-muted">&copy; 2023 - {% now 'Y' %}</small>
+</footer>
 </html>
