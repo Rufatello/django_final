@@ -1,15 +1,55 @@
 from django.db import models
 
+from main import settings
 
-class Patient(models.Model):
-    first_name = models.CharField(verbose_name='Имя', max_length=100)
-    last_name = models.CharField(verbose_name='Фамилия', max_length=100)
-    surname = models.CharField(verbose_name='Отчество', max_length=100)
-    email = models.EmailField(unique=True, verbose_name='Почта')
 
-    class Meta:
-        verbose_name = 'Пациент'
-        verbose_name_plural = 'Пациенты'
+class Message(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Тема письма')
+    body = models.TextField(verbose_name='Тело письма')
 
     def __str__(self):
-        return f'{self.first_name}{self.last_name}{self.surname}'
+        return self.name
+
+    class Meta:
+        verbose_name = 'Письмо'
+        verbose_name_plural = 'Письма'
+
+
+class Client(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь', null=True, blank=True)
+    first_name = models.CharField(max_length=150, verbose_name='Имя')
+    last_name = models.CharField(max_length=150, verbose_name='Фамилия')
+    surname = models.CharField(max_length=150, verbose_name='Отчество')
+    email = models.EmailField(unique=True, verbose_name='Почта')
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
+
+class Mailings(models.Model):
+    stat_mailings = [
+        ('start', 'Start'),
+        ('finish', 'Finish'),
+        ('created', 'Created')
+    ]
+
+    period = [
+        ('once_a_day', 'Once_a_day'),
+        ('once_a_week', 'Once_a_week'),
+        ('once_a_month', 'Once_a_month')
+    ]
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='Письмо', blank=True, null=True)
+    client = models.ManyToManyField(Client)
+    state = models.CharField(max_length=10, choices=stat_mailings, default='start', verbose_name='Статус')
+    periodicity = models.CharField(choices=period, default='once_a_day', verbose_name='Переодичность')
+
+    def __str__(self):
+        return f'{self.state} {self.periodicity}'
+    class Meta:
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
