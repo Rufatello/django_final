@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, View, UpdateView, ListView, DeleteView
 
-from message.models import Client
+from message.models import Client, Mailings
 
 
 class HomeTemplateView(TemplateView):
@@ -62,13 +62,26 @@ class ClientListView(LoginRequiredMixin, ListView):
     template_name = 'message/client_list.html'
 
 
-
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     template_name = 'message/delete_client.html'
     success_url = reverse_lazy('message:client_list')
+
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         if self.object.user != self.request.user and not self.request.user.is_staff:
             raise Http404("Вы не являетесь владельцем этого клиента")
         return self.object
+
+
+class MailingsListView(LoginRequiredMixin, ListView):
+    model = Mailings
+    template_name = 'message/mailings_list.html'
+    success_url = reverse_lazy('message:mailings_list')
+
+
+class MailingsCreateView(LoginRequiredMixin, CreateView):
+    model = Mailings
+    template_name = 'message/mailings_create.html'
+    fields = ('message', 'client', 'state', 'periodicity',)
+    success_url = reverse_lazy('message:mailings_list')

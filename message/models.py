@@ -16,7 +16,8 @@ class Message(models.Model):
 
 
 class Client(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь', null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь',
+                             null=True, blank=True)
     first_name = models.CharField(max_length=150, verbose_name='Имя')
     last_name = models.CharField(max_length=150, verbose_name='Фамилия')
     surname = models.CharField(max_length=150, verbose_name='Отчество')
@@ -33,23 +34,25 @@ class Client(models.Model):
 
 class Mailings(models.Model):
     stat_mailings = [
-        ('start', 'Start'),
-        ('finish', 'Finish'),
-        ('created', 'Created')
+        ('start', 'Запущена'),
+        ('finish', 'Завершена'),
+        ('created', 'Создана')
     ]
 
     period = [
-        ('once_a_day', 'Once_a_day'),
-        ('once_a_week', 'Once_a_week'),
-        ('once_a_month', 'Once_a_month')
+        ('once_a_day', 'Раз в день'),
+        ('once_a_week', 'Раз в неделю'),
+        ('once_a_month', 'Раз в месяц')
     ]
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='Письмо', blank=True, null=True)
     client = models.ManyToManyField(Client)
     state = models.CharField(max_length=10, choices=stat_mailings, default='start', verbose_name='Статус')
     periodicity = models.CharField(choices=period, default='once_a_day', verbose_name='Переодичность')
+    date = models.DateTimeField(verbose_name='время рассылки', auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return f'{self.state} {self.periodicity}'
+
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
