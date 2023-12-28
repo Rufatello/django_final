@@ -1,10 +1,21 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, TemplateView, View, UpdateView, ListView, DeleteView
 
 from message.models import Client, Mailings
+
+
+class VerificationMixin:
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.user != self.request.user and not self.request.user.is_staff:
+            raise Http404("Вы не являетесь владельцем этого клиента")
+        return self.object
 
 
 class HomeTemplateView(TemplateView):
@@ -12,7 +23,9 @@ class HomeTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        newsletters = Mailings.objects.all()
         context['title'] = 'Главная страница'
+        context['count'] = newsletters.count()
         return context
 
 
@@ -83,5 +96,35 @@ class MailingsListView(LoginRequiredMixin, ListView):
 class MailingsCreateView(LoginRequiredMixin, CreateView):
     model = Mailings
     template_name = 'message/mailings_create.html'
-    fields = ('message', 'client', 'state', 'periodicity',)
+    fields = ('message', 'client', 'state', 'periodicity', 'date',)
+    success_url = reverse_lazy('message:mailings_list')
+
+    def form_valid(self, form):
+        a = timezone.now()
+
+        response = super().form_valid(form)
+        if a > form.instance.date:
+            for client in form.instance.client.all():
+                send_mail(
+                    subject=f'{form.instance.message.name}',
+                    message=f'{form.instance.message.body}',
+                    from_email=settings.EMAIL_HOST_USER,
+                    recipient_list=[client.email]
+                )
+
+            form.instance.state = 'finish'
+        form.instance.save()
+        return response
+
+
+class MailingsUpdateView(LoginRequiredMixin, UpdateView):
+    model = Mailings
+    template_name = 'message/update_mailings.html'
+    fields = ('message', 'client', 'state', 'periodicity', 'date',)
+    success_url = reverse_lazy('message:mailings_list')
+
+
+class MailingsDeleteView(LoginRequiredMixin, DeleteView):
+    model = Mailings
+    template_name = 'message/delete_mailings.html'
     success_url = reverse_lazy('message:mailings_list')

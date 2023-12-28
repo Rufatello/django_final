@@ -48,8 +48,9 @@ class Mailings(models.Model):
     client = models.ManyToManyField(Client)
     state = models.CharField(max_length=10, choices=stat_mailings, default='start', verbose_name='Статус')
     periodicity = models.CharField(choices=period, default='once_a_day', verbose_name='Переодичность')
-    date = models.DateTimeField(verbose_name='время рассылки', auto_now_add=True, null=True, blank=True)
-
+    date = models.DateTimeField(verbose_name='время рассылки', null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь',
+                             null=True, blank=True)
     def __str__(self):
         return f'{self.state} {self.periodicity}'
 
