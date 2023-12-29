@@ -1,15 +1,51 @@
 {% extends 'message/base.html' %}
+{% load mediapath %}
 {% block title %}
     <div class="b-example-divider"></div>
 
     <div class="container">
-        <header>
-            <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-                <h1 class="display-4 fw-normal text-body-emphasis">Главная</h1>
-                <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
-            </div>
-        </header>
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Главная</h1>
+            <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+        </div>
+    </header>
 {% endblock %}
 {% block body %}
     <h5>Список активный рассылок: {{ count }}</h5>
+    <h5>Список активный клиентов: {{ client }}</h5>
+    <h5>Список активный клиентов: {{ active_newsletters }}</h5>
+    <div class="row text-start">
+
+        <div class="album py-5 bg-body-tertiary">
+
+            <div class="container">
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for object in object_list %}
+                        <div class="col">
+
+                            <div class="card shadow-sm">
+                                <img src="{{ object.photo|mediapath }}" width="100%" height="200">
+                                <div class="card-body">
+                                    <p class="card-text">{{ object.title|slice:':20' }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <div class="card-body">
+                                                <p class="card-text">{{ object.body|slice:':70' }}</p>
+
+                                                <a type="button" class="btn btn-sm btn-outline-secondary"
+                                                   href="#">Подробнее</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+
 {% endblock %}

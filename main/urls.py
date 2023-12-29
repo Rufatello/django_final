@@ -8,5 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('message.urls', namespace='message')),
     path('user/', include('users.urls', namespace='users')),
+    # path('', include('blog.urls', namespace='blog')),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

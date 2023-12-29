@@ -12,15 +12,15 @@
 {% block body %}
 
 
-<div class="form-container">
-    <form method='post'>
-        {% csrf_token %}
-        <div class="form-error">{{ form.non_field_errors }}</div>
-        {{ form.as_p }}
-        <h3>Вы действительно хотите удалить клиента?</h3>
-        <button type="submit" class="btn btn-danger">Да</button>
-        <button type="button" href="{% url 'message:client_list' %}" class="btn btn-success">Нет</button>
+    <div class="form-container">
+        <form method='post'>
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {{ form.as_p }}
+            <h3>Вы действительно хотите удалить клиента?</h3>
+            <button type="submit" class="btn btn-danger">Да</button>
+            <button type="button" href="{% url 'message:client_list' %}" class="btn btn-success">Нет</button>
 
 
-    </form>
+        </form>
 {% endblock %}

@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, TemplateView, View, UpdateView, ListView, DeleteView
 
+from blog.models import Blog
 from message.models import Client, Mailings
 
 
@@ -18,14 +19,23 @@ class VerificationMixin:
         return self.object
 
 
-class HomeTemplateView(TemplateView):
+class HomeListView(ListView):
+    model = Blog
     template_name = 'message/index.html'
+
+    def get_queryset(self):
+        return Blog.objects.all()[:3]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         newsletters = Mailings.objects.all()
+        active_newsletters = Mailings.objects.filter(state='created')
+        client = Client.objects.all()
         context['title'] = 'Главная страница'
         context['count'] = newsletters.count()
+        context['client'] = client.count()
+        context['active_newsletters'] = active_newsletters.count()
+
         return context
 
 

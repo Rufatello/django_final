@@ -4,18 +4,18 @@
     <div class="b-example-divider"></div>
 
     <div class="container">
-        <header>
-            <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-                <h1 class="display-4 fw-normal text-body-emphasis">Личный кабинет</h1>
+    <header>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Личный кабинет</h1>
 
-            </div>
-        </header>
+        </div>
+    </header>
 {% endblock %}
 {% block body %}
     {% if user.avatar %}
-    <img src="{% mediapath user.avatar %}"  width="40%" height="150" class="bd-placeholder-img">
+        <img src="{% mediapath user.avatar %}" width="40%" height="150" class="bd-placeholder-img">
     {% else %}
-        <img src="{% mediapath 'user/Pochik.jpeg' %}"  width="40%" height="150" class="bd-placeholder-img">
+        <img src="{% mediapath 'user/Pochik.jpeg' %}" width="40%" height="150" class="bd-placeholder-img">
     {% endif %}
     <h3 class="display-9 fw-normal text-body-emphasis">Имя: {{ user.first_name }}</h3>
     <h3 class="display-9 fw-normal text-body-emphasis">Фамилия: {{ user.last_name }}</h3>

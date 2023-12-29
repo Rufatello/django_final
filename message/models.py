@@ -51,6 +51,7 @@ class Mailings(models.Model):
     date = models.DateTimeField(verbose_name='время рассылки', null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь',
                              null=True, blank=True)
+
     def __str__(self):
         return f'{self.state} {self.periodicity}'
 

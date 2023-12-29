@@ -4,7 +4,7 @@ from message.apps import MessageConfig
 
 app_name = MessageConfig.name
 urlpatterns = [
-    path('', views.HomeTemplateView.as_view(), name='home'),
+    path('', views.HomeListView.as_view(), name='home'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('client_create/', views.ClientCreateView.as_view(), name='client_create'),
     path('update/<int:pk>', views.ClientUpdateView.as_view(), name='update_client'),
@@ -14,4 +14,4 @@ urlpatterns = [
     path('mailings_create/', views.MailingsCreateView.as_view(), name='mailings_create'),
     path('update_mailings/<int:pk>/detail/', views.MailingsUpdateView.as_view(), name='update_mailings'),
     path('delete_mailings/<int:pk>/detail/', views.MailingsDeleteView.as_view(), name='delete_mailings'),
-    ]
+]

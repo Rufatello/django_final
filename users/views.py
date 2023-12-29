@@ -10,9 +10,6 @@ from users.forms import UserForm, UserFormUpdate, PasswordChangingForm
 from users.services import new_pass, generation
 
 
-
-
-
 class UserTemplateView(TemplateView):
     template_name = 'users/templates.html'
 
@@ -49,9 +46,9 @@ class RegisterView(CreateView):
 
 
 class PasswordsChangeView(PasswordChangeView):
-  form_class = PasswordChangingForm
-  success_url = reverse_lazy('users:login')
-  template_name = 'users/user_password.html'
+    form_class = PasswordChangingForm
+    success_url = reverse_lazy('users:login')
+    template_name = 'users/user_password.html'
 
 
 class CodeView(View):

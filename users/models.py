@@ -11,7 +11,6 @@ class User(AbstractUser):
     phone = models.CharField(max_length=25, verbose_name='Номер телефона', **NULLABLE)
     surname = models.CharField(max_length=150, verbose_name='Отчество', **NULLABLE)
     is_active = models.BooleanField(default=False, verbose_name='Активность')
-    code = models.CharField(max_length=15, verbose_name='код',  **NULLABLE)
+    code = models.CharField(max_length=15, verbose_name='код', **NULLABLE)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
