@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, TemplateView, View, UpdateView, ListView, DeleteView
+from django.views.generic import CreateView, View, UpdateView, ListView, DeleteView
 
 from blog.models import Blog
 from message.models import Client, Mailings
