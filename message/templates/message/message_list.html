@@ -1,20 +1,16 @@
 {% extends 'message/base.html' %}
-{% load mediapath %}
 {% block title %}
     <div class="b-example-divider"></div>
 
     <div class="container">
     <header>
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal text-body-emphasis">Главная</h1>
-            <p class="fs-5 text-body-secondary">Вы находитесь на сайте, предназначенном для продажи товаров</p>
+            <h1 class="display-4 fw-normal text-body-emphasis">Все рассылки</h1>
         </div>
     </header>
 {% endblock %}
 {% block body %}
-    <h5>Список рассылок: {{ count }}</h5>
-    <h5>Список активный клиентов: {{ client }}</h5>
-    <h5>Список активный рассылок: {{ active_newsletters }}</h5>
+
     <div class="row text-start">
 
         <div class="album py-5 bg-body-tertiary">
@@ -26,16 +22,18 @@
                         <div class="col">
 
                             <div class="card shadow-sm">
-                                <img src="{{ object.photo|mediapath }}" width="100%" height="200">
                                 <div class="card-body">
-                                    <p class="card-text">{{ object.title|slice:':20' }}...</p>
+                                    <p class="card-text">{{ object.state }} {{ object.periodicity }} {{ object.client }} </p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <div class="card-body">
-                                                <p class="card-text">{{ object.body|slice:':70' }}</p>
+                                                <p class="card-text">Наименование: {{ object.name|slice:15 }} </p>
+                                                <p class="card-text">Тело: {{ object.body|slice:15 }} </p>
 
                                                 <a type="button" class="btn btn-sm btn-outline-secondary"
-                                                   href="{% url 'blog:blog_detail' object.pk %}">Подробнее</a>
+                                                   href="{% url 'message:message_update' object.pk %}">Редактировать</a>
+                                                <a type="button" class="btn btn-sm btn-outline-danger"
+                                                   href="{% url 'message:message_delete' object.pk %}">Удалить</a>
 
                                             </div>
                                         </div>
@@ -47,5 +45,9 @@
                         </div>
                     {% endfor %}
                 </div>
+                <a class="m-2 p-2 btn btn-outline-primary" href="{% url 'message:message_create' %}">Добавление
+                    письма</a>
+            </div>
+        </div>
 
 {% endblock %}

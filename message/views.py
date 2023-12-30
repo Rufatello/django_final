@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -8,7 +10,7 @@ from django.utils import timezone
 from django.views.generic import CreateView, View, UpdateView, ListView, DeleteView
 
 from blog.models import Blog
-from message.models import Client, Mailings
+from message.models import Client, Mailings, Message
 
 
 class VerificationMixin:
@@ -29,7 +31,7 @@ class HomeListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         newsletters = Mailings.objects.all()
-        active_newsletters = Mailings.objects.filter(state='created')
+        active_newsletters = Mailings.objects.filter(state='start')
         client = Client.objects.all()
         context['title'] = 'Главная страница'
         context['count'] = newsletters.count()
@@ -138,3 +140,25 @@ class MailingsDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailings
     template_name = 'message/delete_mailings.html'
     success_url = reverse_lazy('message:mailings_list')
+
+
+class MessageListView(LoginRequiredMixin, ListView):
+    model = Message
+    template_name = 'message/message_list.html'
+
+
+class MessageCreateView(LoginRequiredMixin, CreateView):
+    model = Message
+    template_name = 'message/create_message.html'
+    success_url = reverse_lazy('message:message_list')
+    fields = ('name', 'body',)
+
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
+    model = Message
+    template_name = 'message/update_message.html'
+    fields = ('name', 'body',)
+    success_url = reverse_lazy('message:message_list')
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
+    model = Message
+    success_url = reverse_lazy('message:message_list')
+    template_name = 'message/delete_message.html'

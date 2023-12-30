@@ -58,3 +58,13 @@ class Mailings(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+
+
+class Log(models.Model):
+    stat_mailings = [
+        ('start', 'Запущена'),
+        ('finish', 'Завершена'),
+    ]
+    data = models.DateTimeField(verbose_name='дата', null=True, blank=True)
+    state = models.CharField(max_length=10, choices=stat_mailings, default='start', verbose_name='Статус')
+    email_answer = models.BooleanField(default=False, verbose_name='ответ от почты')
