@@ -1,4 +1,3 @@
-from django.core.management.commands.runserver import Command as Runserver
 import pytz
 import logging
 from datetime import datetime, timedelta
