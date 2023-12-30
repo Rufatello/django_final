@@ -111,22 +111,22 @@ class MailingsCreateView(LoginRequiredMixin, CreateView):
     fields = ('message', 'client', 'state', 'periodicity', 'date',)
     success_url = reverse_lazy('message:mailings_list')
 
-    def form_valid(self, form):
-        a = timezone.now()
-
-        response = super().form_valid(form)
-        if a > form.instance.date:
-            for client in form.instance.client.all():
-                send_mail(
-                    subject=f'{form.instance.message.name}',
-                    message=f'{form.instance.message.body}',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=[client.email]
-                )
-
-            form.instance.state = 'finish'
-        form.instance.save()
-        return response
+    # def form_valid(self, form):
+    #     a = timezone.now()
+    #
+    #     response = super().form_valid(form)
+    #     if a > form.instance.date:
+    #         for client in form.instance.client.all():
+    #             send_mail(
+    #                 subject=f'{form.instance.message.name}',
+    #                 message=f'{form.instance.message.body}',
+    #                 from_email=settings.EMAIL_HOST_USER,
+    #                 recipient_list=[client.email]
+    #             )
+    #
+    #         form.instance.state = 'finish'
+    #     form.instance.save()
+    #     return response
 
 
 class MailingsUpdateView(LoginRequiredMixin, UpdateView):
